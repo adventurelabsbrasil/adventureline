@@ -11,6 +11,7 @@
 #   pick via  $ADVENTURELINE_THEME  env,  ./theme.conf  file, or  adventureline theme <name>
 
 input=$(cat)
+export LC_NUMERIC=C   # decimal ponto, independente do locale do host (pt_*, de_*, etc.)
 US=$'\037'   # unit separator (emoji␟label␟value)
 SCRIPT_DIR=$(cd "$(dirname "$0")" 2>/dev/null && pwd)
 
