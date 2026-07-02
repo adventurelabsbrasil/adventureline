@@ -7,7 +7,9 @@
 set -e
 DIR=$(cd "$(dirname "$0")" && pwd)
 THEMES="adventure aurora starcommand minimal"
-SAMPLE='{"workspace":{"current_dir":"'"$DIR"'"},"model":{"display_name":"Opus 4.8 (1M)"},"effort":{"level":"high"},"context_window":{"total_input_tokens":630000,"total_output_tokens":0,"context_window_size":1000000,"used_percentage":63},"cost":{"total_cost_usd":1.42,"total_duration_ms":933000,"total_lines_added":156,"total_lines_removed":23},"pr":{"number":42,"review_state":"approved"},"rate_limits":{"five_hour":{"used_percentage":41},"seven_day":{"used_percentage":9}}}'
+# statusline script may be named statusline.sh (repo) or statusline-command.sh (install)
+SL="$DIR/statusline.sh"; [ -f "$SL" ] || SL="$DIR/statusline-command.sh"
+SAMPLE='{"workspace":{"current_dir":"/home/you/code/my-project"},"model":{"display_name":"Opus 4.8 (1M)"},"effort":{"level":"high"},"context_window":{"total_input_tokens":630000,"total_output_tokens":0,"context_window_size":1000000,"used_percentage":63},"cost":{"total_cost_usd":1.42,"total_duration_ms":933000,"total_lines_added":156,"total_lines_removed":23},"pr":{"number":42,"review_state":"approved"},"rate_limits":{"five_hour":{"used_percentage":41},"seven_day":{"used_percentage":9}}}'
 
 current() { if [ -f "$DIR/theme.conf" ]; then printf '%s\n' "$(tr -d '[:space:]' < "$DIR/theme.conf")"; else echo adventure; fi; }
 
@@ -25,11 +27,11 @@ case "${1:-}" in
     ;;
   preview)
     if [ -n "${2:-}" ]; then
-      echo "$SAMPLE" | ADVENTURELINE_THEME="$2" bash "$DIR/statusline.sh"; echo
+      echo "$SAMPLE" | ADVENTURELINE_THEME="$2" bash "$SL"; echo
     else
       for t in $THEMES; do
         printf '\n\033[1m── %s ──\033[0m\n' "$t"
-        echo "$SAMPLE" | ADVENTURELINE_THEME="$t" bash "$DIR/statusline.sh"; echo
+        echo "$SAMPLE" | ADVENTURELINE_THEME="$t" bash "$SL"; echo
       done
     fi
     ;;
