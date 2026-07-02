@@ -7,6 +7,10 @@ DEST="${1:-$HOME/.claude/adventureline}"
 mkdir -p "$DEST"
 cp "$SRC/statusline.sh" "$SRC/statusline-grid.py" "$SRC/adventureline" "$DEST/"
 chmod +x "$DEST/statusline.sh" "$DEST/statusline-grid.py" "$DEST/adventureline"
+
+# optional: install the /adventureline slash command for Claude Code
+mkdir -p "$HOME/.claude/commands"
+cp "$SRC/commands/adventureline.md" "$HOME/.claude/commands/adventureline.md"
 echo "✓ Installed to $DEST"
 echo
 echo "Add to ~/.claude/settings.json (create if missing):"

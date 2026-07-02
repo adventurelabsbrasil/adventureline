@@ -75,6 +75,14 @@ Or pin a theme directly in `settings.json` (no state file):
 { "statusLine": { "type": "command", "command": "ADVENTURELINE_THEME=starcommand ~/.claude/adventureline/statusline.sh" } }
 ```
 
+Inside a Claude Code session, use the bundled **slash command** (installed by `install.sh`):
+
+```
+/adventureline aurora      # switch theme
+/adventureline preview     # show all four
+/adventureline list        # list + current
+```
+
 Or just tell Claude Code: *"switch adventureline to the minimal theme."*
 
 ## Customize the gradient
