@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+# adventureline — manage the statusline theme.
+#   adventureline theme <name>   set the active theme (writes theme.conf)
+#   adventureline list           list themes and show the current one
+#   adventureline preview [name] render a sample (one theme, or all)
+#   adventureline current        print the active theme name
+set -e
+DIR=$(cd "$(dirname "$0")" && pwd)
+THEMES="adventure aurora starcommand minimal"
+SAMPLE='{"workspace":{"current_dir":"'"$DIR"'"},"model":{"display_name":"Opus 4.8 (1M)"},"effort":{"level":"high"},"context_window":{"total_input_tokens":630000,"total_output_tokens":0,"context_window_size":1000000,"used_percentage":63},"cost":{"total_cost_usd":1.42,"total_duration_ms":933000,"total_lines_added":156,"total_lines_removed":23},"pr":{"number":42,"review_state":"approved"},"rate_limits":{"five_hour":{"used_percentage":41},"seven_day":{"used_percentage":9}}}'
+
+current() { [ -f "$DIR/theme.conf" ] && tr -d '[:space:]' < "$DIR/theme.conf" || echo adventure; }
+
+case "${1:-}" in
+  theme)
+    t="${2:-}"
+    echo "$THEMES" | grep -qw "$t" || { echo "unknown theme: '$t'"; echo "available: $THEMES"; exit 1; }
+    echo "$t" > "$DIR/theme.conf"
+    echo "✓ adventureline theme set to '$t'"
+    ;;
+  current) current ;;
+  list)
+    echo "themes: $THEMES"
+    echo "current: $(current)"
+    ;;
+  preview)
+    if [ -n "${2:-}" ]; then
+      echo "$SAMPLE" | ADVENTURELINE_THEME="$2" bash "$DIR/statusline.sh"; echo
+    else
+      for t in $THEMES; do
+        printf '\n\033[1m── %s ──\033[0m\n' "$t"
+        echo "$SAMPLE" | ADVENTURELINE_THEME="$t" bash "$DIR/statusline.sh"; echo
+      done
+    fi
+    ;;
+  *)
+    cat <<USAGE
+adventureline — Claude Code statusline themes
+
+usage:
+  adventureline theme <name>     set active theme
+  adventureline list             list themes + current
+  adventureline current          print active theme
+  adventureline preview [name]   render sample (one theme or all)
+
+themes: $THEMES
+USAGE
+    ;;
+esac

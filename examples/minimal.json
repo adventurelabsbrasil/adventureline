@@ -1,0 +1,16 @@
+{
+  "workspace": { "current_dir": "/home/you/code/my-project" },
+  "model": { "display_name": "Opus 4.8 (1M)" },
+  "context_window": {
+    "total_input_tokens": 128000,
+    "total_output_tokens": 0,
+    "context_window_size": 1000000,
+    "used_percentage": 13
+  },
+  "cost": {
+    "total_cost_usd": 0.42,
+    "total_duration_ms": 300000,
+    "total_lines_added": 40,
+    "total_lines_removed": 8
+  }
+}
